@@ -52,5 +52,12 @@ _Nenhuma registrada ainda._
 
 ## Current Focus
 
-**Phase 1 — UI Foundation**
-Status: PLANNING → próximo passo é iniciar implementação após aprovação do plano pelo usuário.
+**Phase 2 — Drag-and-Drop, Animacoes e Notas**
+Status: READY TO START -> Phase 1 aprovada pelo usuario em 2026-04-24.
+
+## Progress Log
+
+| Date | Phase | Notes |
+|---|---|---|
+| 2026-04-24 | Phase 1 UI Foundation | Scaffold Next.js 15 + TypeScript + Tailwind v4 criado; shadcn/ui base configurado; `/dashboard` estatico implementado com sidebar, header/tabs, colunas Kanban, cards, tags e avatares; `npm run build` passou. |
+| 2026-04-24 | Phase 1 Approval | Usuario aprovou visualmente a Phase 1; projeto liberado para iniciar Phase 2. |

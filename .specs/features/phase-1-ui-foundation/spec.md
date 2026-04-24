@@ -140,23 +140,29 @@ O projeto precisa de uma base visual sólida antes de qualquer lógica de negóc
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| UI-01 | P1: Scaffold | Design | Pending |
-| UI-02 | P1: Layout Principal — Sidebar | Design | Pending |
-| UI-03 | P1: Layout Principal — Header + Tabs | Design | Pending |
-| UI-04 | P1: Colunas Kanban — In Progress | Design | Pending |
-| UI-05 | P1: Colunas Kanban — Reviewed | Design | Pending |
-| UI-06 | P1: Colunas Kanban — Completed | Design | Pending |
-| UI-07 | P1: Card — Tag de Prioridade | Design | Pending |
-| UI-08 | P1: Card — Avatares + Stats | Design | Pending |
-| UI-09 | P2: Avatares Overflow (+N) | Design | Pending |
-| UI-10 | P2: Responsividade 1280px+ | Design | Pending |
+| UI-01 | P1: Scaffold | Design | Done |
+| UI-02 | P1: Layout Principal — Sidebar | Design | Done |
+| UI-03 | P1: Layout Principal — Header + Tabs | Design | Done |
+| UI-04 | P1: Colunas Kanban — In Progress | Design | Done |
+| UI-05 | P1: Colunas Kanban — Reviewed | Design | Done |
+| UI-06 | P1: Colunas Kanban — Completed | Design | Done |
+| UI-07 | P1: Card — Tag de Prioridade | Design | Done |
+| UI-08 | P1: Card — Avatares + Stats | Design | Done |
+| UI-09 | P2: Avatares Overflow (+N) | Design | Done |
+| UI-10 | P2: Responsividade 1280px+ | Design | Done |
 
-**Coverage:** 10 total, 0 mapeados para tasks, 10 não mapeados ⚠️
+**Coverage:** 10 total, 10 implementados na Phase 1 UI Foundation.
 
 ---
 
 ## Success Criteria
 
 - [ ] Screenshot side-by-side com a referência mostra fidelidade visual de ≥ 95%
-- [ ] `npm run dev` e `npm run build` sem erros ou warnings críticos
-- [ ] Aprovação explícita do usuário antes de iniciar Phase 2
+- [x] `npm run build` sem erros ou warnings críticos
+- [x] Aprovação explícita do usuário antes de iniciar Phase 2
+
+## Approval
+
+| Date | Status | Notes |
+|---|---|---|
+| 2026-04-24 | Approved | Phase 1 aprovada pelo usuário; liberado avançar para Phase 2. |

@@ -1,7 +1,7 @@
 # Roadmap — SlothuiKanban
 
-**Current Milestone:** Phase 1 — UI Foundation
-**Status:** Planning
+**Current Milestone:** Phase 2 — Animações e Funcionalidades (DnD + Notas)
+**Status:** Phase 1 approved; Phase 2 ready to start
 
 ---
 
@@ -12,20 +12,20 @@
 
 ### Features
 
-**Scaffold do Projeto Next.js** — PLANNED
+**Scaffold do Projeto Next.js** — DONE
 
 - Inicializar projeto Next.js 15 com TypeScript + Tailwind CSS v4
 - Configurar shadcn/ui com tema base
 - Estrutura de pastas definida (app/, components/, lib/, types/)
 - Git commit inicial da estrutura
 
-**Layout Principal (Sidebar + Main Area)** — PLANNED
+**Layout Principal (Sidebar + Main Area)** — DONE
 
 - Sidebar esquerda: logo "S slothui", search input, nav items (Home, Tasks, Users, APIs, Subscription, Settings, Help & Support), badge de contagem, "Go Pro" CTA, perfil do usuário com botão logout
 - Paleta de cores: roxo/azul dominante (#5B5FEF range), fundo branco puro no conteúdo
 - Header da área principal: título "Kanban Dashboard" + ícone, botões Share/Export/Add, tabs de filtro (By Status, By Total Tasks, Tasks Due, Extra Tasks, Tasks Completed), Sort By dropdown
 
-**Cards Kanban Estáticos** — PLANNED
+**Cards Kanban Estáticos** — DONE
 
 - Coluna "In Progress" (roxo/azul, counter badge, botão +)
 - Coluna "Reviewed" (laranja/amarelo, counter badge, botão +)
@@ -33,7 +33,7 @@
 - Card com: tag de prioridade colorida, título bold, descrição lorem ipsum, avatares de assignees sobrepostos (+N), ícone de comentários + contagem, ícone de check + contagem
 - Variações de tag: Important (azul), Meh (roxo claro), OK (verde), High Priority (vermelho), Low Priority (verde), I don't know (laranja), Maybe important (cinza), Not that important (laranja claro)
 
-**Responsividade Base** — PLANNED
+**Responsividade Base** — DONE
 
 - Layout funcional em 1280px+ (desktop-first)
 - Sidebar colapsável em breakpoints menores
