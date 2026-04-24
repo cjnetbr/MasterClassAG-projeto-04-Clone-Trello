@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "SlothuiKanban",
-  description: "Kanban dashboard for client project updates.",
+  description: "Painel Kanban para atualizações de projetos de clientes.",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );

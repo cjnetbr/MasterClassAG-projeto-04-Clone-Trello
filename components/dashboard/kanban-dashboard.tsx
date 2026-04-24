@@ -26,8 +26,6 @@ import {
   Bell,
   CheckCircle2,
   ChevronDown,
-  CircleHelp,
-  Code2,
   GripVertical,
   Home,
   LayoutDashboard,
@@ -42,7 +40,6 @@ import {
   Star,
   Upload,
   Users,
-  WalletCards,
   X,
 } from "lucide-react";
 
@@ -58,13 +55,10 @@ type ToastState = {
 } | null;
 
 const navItems = [
-  { label: "Home", icon: Home, badge: "10", active: true },
-  { label: "Tasks", icon: LayoutDashboard },
-  { label: "Users", icon: Users, badge: "2" },
-  { label: "APIs", icon: Code2 },
-  { label: "Subscription", icon: WalletCards },
-  { label: "Settings", icon: Settings },
-  { label: "Help & Support", icon: CircleHelp },
+  { label: "Início", icon: Home, badge: "10", active: true },
+  { label: "Tarefas", icon: LayoutDashboard },
+  { label: "Usuários", icon: Users, badge: "2" },
+  { label: "Configurações", icon: Settings },
 ];
 
 const priorityStyles: Record<Priority, string> = {
@@ -79,6 +73,26 @@ const priorityStyles: Record<Priority, string> = {
 };
 
 const priorities = Object.keys(priorityStyles) as Priority[];
+
+const priorityLabels: Record<Priority, string> = {
+  Important: "Importante",
+  Meh: "Médio",
+  OK: "OK",
+  "High Priority": "Alta prioridade",
+  "Low Priority": "Baixa prioridade",
+  "I don't know": "Indefinido",
+  "Maybe important": "Talvez importante",
+  "Not that important": "Pouco importante",
+};
+
+const columnLabels: Record<string, string> = {
+  "In Progress": "Em andamento",
+  Reviewed: "Revisado",
+  Completed: "Concluído",
+  "in-progress": "Em andamento",
+  reviewed: "Revisado",
+  completed: "Concluído",
+};
 
 const columnStyles = {
   indigo: {
@@ -102,12 +116,16 @@ const columnStyles = {
 };
 
 const tabs = [
-  "By Status",
-  "By Total Tasks",
-  "Tasks Due",
-  "Extra Tasks",
-  "Tasks Completed",
+  "Por status",
+  "Total de tarefas",
+  "Tarefas vencendo",
+  "Tarefas extras",
+  "Tarefas concluídas",
 ];
+
+function displayColumnTitle(title: string) {
+  return columnLabels[title] ?? title;
+}
 
 function formatCount(value: number) {
   if (value >= 100000) return `${Math.round(value / 1000)}k`;
@@ -118,10 +136,10 @@ function formatCount(value: number) {
 function relativeTime(isoDate: string) {
   const diff = Date.now() - new Date(isoDate).getTime();
   const minutes = Math.max(1, Math.round(diff / 60000));
-  if (minutes < 60) return `${minutes} min ago`;
+  if (minutes < 60) return `há ${minutes} min`;
   const hours = Math.round(minutes / 60);
-  if (hours < 24) return `${hours} h ago`;
-  return `${Math.round(hours / 24)} d ago`;
+  if (hours < 24) return `há ${hours} h`;
+  return `há ${Math.round(hours / 24)} d`;
 }
 
 function Sidebar() {
@@ -136,7 +154,7 @@ function Sidebar() {
 
       <div className="mb-6 flex h-11 items-center gap-3 rounded-2xl bg-white/15 px-4 text-white/75 ring-1 ring-white/10">
         <Search className="h-5 w-5" />
-        <span className="text-sm">Search</span>
+        <span className="text-sm">Buscar</span>
       </div>
 
       <nav className="flex flex-1 flex-col gap-2">
@@ -169,12 +187,12 @@ function Sidebar() {
         <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-white/18">
           <Star className="h-5 w-5 fill-white" />
         </div>
-        <p className="mb-1 text-sm font-bold">Go Pro</p>
+        <p className="mb-1 text-sm font-bold">Plano Pro</p>
         <p className="mb-4 text-xs leading-5 text-white/75">
-          Upgrade your workflow with extra boards and smart reports.
+          Melhore seu fluxo com mais quadros e relatórios inteligentes.
         </p>
         <Button className="h-9 w-full rounded-xl bg-white text-[#5B5FEF] hover:bg-white/90">
-          Upgrade
+          Fazer upgrade
         </Button>
       </div>
 
@@ -184,7 +202,7 @@ function Sidebar() {
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-bold">Cesar Junior</p>
-          <p className="text-xs text-white/70">Project manager</p>
+          <p className="text-xs text-white/70">Gerente de projetos</p>
         </div>
         <LogOut className="h-5 w-5 text-white/70" />
       </div>
@@ -201,29 +219,29 @@ function Header() {
             <LayoutDashboard className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase text-gray-400">Workspace</p>
-            <h1 className="text-2xl font-bold text-gray-950">Kanban Dashboard</h1>
+            <p className="text-xs font-semibold uppercase text-gray-400">Área de trabalho</p>
+            <h1 className="text-2xl font-bold text-gray-950">Painel Kanban</h1>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" aria-label="Search dashboard">
+          <Button variant="ghost" size="icon" aria-label="Buscar no painel">
             <Search className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" aria-label="Notifications">
+          <Button variant="ghost" size="icon" aria-label="Notificações">
             <Bell className="h-5 w-5" />
           </Button>
           <Button variant="secondary" size="sm">
             <Share2 className="h-4 w-4" />
-            Share
+            Compartilhar
           </Button>
           <Button variant="secondary" size="sm">
             <Upload className="h-4 w-4" />
-            Export
+            Exportar
           </Button>
           <Button size="sm">
             <Plus className="h-4 w-4" />
-            Add
+            Adicionar
           </Button>
         </div>
       </div>
@@ -231,7 +249,7 @@ function Header() {
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-7">
           {tabs.map((tab) => {
-            const active = tab === "By Total Tasks";
+            const active = tab === "Total de tarefas";
             return (
               <button
                 key={tab}
@@ -255,7 +273,7 @@ function Header() {
         </div>
 
         <Button variant="secondary" size="sm" className="text-gray-600">
-          Sort By
+          Ordenar por
           <ChevronDown className="h-4 w-4" />
         </Button>
       </div>
@@ -322,7 +340,7 @@ function TaskCard({
             priorityStyles[card.priority],
           )}
         >
-          {card.priority}
+          {priorityLabels[card.priority]}
         </span>
         {dragListeners ? (
           <span
@@ -341,7 +359,7 @@ function TaskCard({
       </p>
       <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-gray-400">
         <Mail className="h-4 w-4" />
-        <span className="truncate">{card.clientEmail || "No client email"}</span>
+        <span className="truncate">{card.clientEmail || "Sem e-mail do cliente"}</span>
       </div>
       <div className="mt-5 flex items-center justify-between gap-3">
         <AvatarStack people={card.assignees} />
@@ -421,13 +439,13 @@ function KanbanColumnView({
           pulsing && "animate-column-pulse",
         )}
       >
-        <h2 className="flex-1 text-base font-bold">{column.title}</h2>
+        <h2 className="flex-1 text-base font-bold">{displayColumnTitle(column.title)}</h2>
         <span className={cn("mr-3 rounded-full px-2.5 py-1 text-xs font-bold", styles.badge)}>
           {column.count}
         </span>
         <button
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition hover:bg-white/30"
-          aria-label={`Add card to ${column.title}`}
+          aria-label={`Adicionar card em ${displayColumnTitle(column.title)}`}
         >
           <Plus className="h-4 w-4" />
         </button>
@@ -441,7 +459,7 @@ function KanbanColumnView({
             ))
           ) : (
             <div className="flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-white/50 text-sm font-semibold text-gray-400">
-              Drop a card here
+              Solte um card aqui
             </div>
           )}
         </div>
@@ -479,17 +497,17 @@ function CardDrawer({
       >
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-[#5B5FEF]">{column.title}</p>
-            <h2 className="text-xl font-bold text-gray-950">Card details</h2>
+            <p className="text-sm font-semibold text-[#5B5FEF]">{displayColumnTitle(column.title)}</p>
+            <h2 className="text-xl font-bold text-gray-950">Detalhes do card</h2>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close card details">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar detalhes do card">
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         <div className="space-y-5">
           <label className="block">
-            <span className="mb-2 block text-sm font-bold text-gray-700">Title</span>
+            <span className="mb-2 block text-sm font-bold text-gray-700">Título</span>
             <input
               value={card.title}
               onChange={(event) => updateCard(card.id, { title: event.target.value })}
@@ -498,7 +516,7 @@ function CardDrawer({
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-bold text-gray-700">Description</span>
+            <span className="mb-2 block text-sm font-bold text-gray-700">Descrição</span>
             <textarea
               value={card.description}
               onChange={(event) => updateCard(card.id, { description: event.target.value })}
@@ -508,7 +526,7 @@ function CardDrawer({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="mb-2 block text-sm font-bold text-gray-700">Priority</span>
+              <span className="mb-2 block text-sm font-bold text-gray-700">Prioridade</span>
               <select
                 value={card.priority}
                 onChange={(event) => updateCard(card.id, { priority: event.target.value as Priority })}
@@ -516,14 +534,14 @@ function CardDrawer({
               >
                 {priorities.map((priority) => (
                   <option key={priority} value={priority}>
-                    {priority}
+                    {priorityLabels[priority]}
                   </option>
                 ))}
               </select>
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm font-bold text-gray-700">Client email</span>
+              <span className="mb-2 block text-sm font-bold text-gray-700">E-mail do cliente</span>
               <input
                 value={card.clientEmail}
                 onChange={(event) => updateCard(card.id, { clientEmail: event.target.value })}
@@ -533,14 +551,14 @@ function CardDrawer({
           </div>
 
           <div>
-            <span className="mb-2 block text-sm font-bold text-gray-700">Assignees</span>
+            <span className="mb-2 block text-sm font-bold text-gray-700">Responsáveis</span>
             <AvatarStack people={card.assignees} />
           </div>
 
           <div className="rounded-2xl bg-gray-50 p-4">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-gray-950">Notes</h3>
-              <span className="text-xs font-semibold text-gray-400">{card.notes.length} total</span>
+              <h3 className="text-sm font-bold text-gray-950">Notas</h3>
+              <span className="text-xs font-semibold text-gray-400">{card.notes.length} no total</span>
             </div>
 
             <div className="mb-4 space-y-3">
@@ -549,13 +567,13 @@ function CardDrawer({
                   <div key={note.id} className="rounded-xl bg-white p-3 ring-1 ring-gray-100">
                     <p className="text-sm leading-6 text-gray-700">{note.content}</p>
                     <p className="mt-2 text-xs font-semibold text-gray-400">
-                      {note.author} · {relativeTime(note.createdAt)} · {note.columnId}
+                      {note.author} · {relativeTime(note.createdAt)} · {displayColumnTitle(note.columnId)}
                     </p>
                   </div>
                 ))
               ) : (
                 <p className="rounded-xl border border-dashed border-gray-200 bg-white p-4 text-sm font-semibold text-gray-400">
-                  No notes for this card yet.
+                  Ainda não há notas para este card.
                 </p>
               )}
             </div>
@@ -564,7 +582,7 @@ function CardDrawer({
               value={noteText}
               maxLength={500}
               onChange={(event) => setNoteText(event.target.value)}
-              placeholder="Add a note for the current stage"
+              placeholder="Adicione uma nota para a etapa atual"
               className="min-h-24 w-full resize-none rounded-xl border border-gray-200 p-3 text-sm leading-6 outline-none focus:border-[#5B5FEF]"
             />
             <div className="mt-3 flex items-center justify-between">
@@ -576,7 +594,7 @@ function CardDrawer({
                   setNoteText("");
                 }}
               >
-                Add note
+                Adicionar nota
               </Button>
             </div>
           </div>
@@ -658,8 +676,8 @@ export function KanbanDashboard() {
           id: Date.now(),
           tone: result.clientEmail ? "success" : "warning",
           message: result.clientEmail
-            ? `Card moved to ${result.toColumnTitle} · Email will be sent to ${result.clientEmail}`
-            : `No client email · update "${result.cardTitle}" before moving`,
+            ? `Card movido para ${displayColumnTitle(result.toColumnTitle ?? "")} · E-mail será enviado para ${result.clientEmail}`
+            : `Sem e-mail do cliente · atualize "${result.cardTitle}" antes de mover`,
         });
       }
     }
@@ -676,12 +694,12 @@ export function KanbanDashboard() {
         <div className="px-5 py-6 xl:px-8">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-[#5B5FEF]">Current board</p>
-              <h2 className="text-xl font-bold text-gray-950">Client Projects</h2>
+              <p className="text-sm font-semibold text-[#5B5FEF]">Quadro atual</p>
+              <h2 className="text-xl font-bold text-gray-950">Projetos de clientes</h2>
             </div>
             <div className="hidden items-center gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-gray-500 ring-1 ring-gray-100 md:flex">
               <Sparkles className="h-4 w-4 text-[#5B5FEF]" />
-              Interactive Phase 2 board
+              Quadro interativo da Fase 2
             </div>
           </div>
 

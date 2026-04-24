@@ -18,9 +18,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-1",
         priority: "Important",
-        title: "Dashboard wireframe and sidebar navigation system",
+        title: "Wireframe do painel e navegação lateral",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae risus at augue aliquet.",
+          "Definição visual da estrutura principal do painel, com navegação, filtros e visão geral do fluxo.",
         clientEmail: "ana.client@example.com",
         assignees: [assignees.ana, assignees.bruno, assignees.clara, assignees.diego],
         comments: 24,
@@ -30,7 +30,7 @@ export const initialColumns: KanbanColumn[] = [
             id: "note-1",
             cardId: "card-1",
             columnId: "in-progress",
-            content: "Sidebar visual approved for the first review pass.",
+            content: "Visual da sidebar aprovado para a primeira revisão.",
             createdAt: "2026-04-24T12:00:00.000Z",
             author: "Cesar Junior",
           },
@@ -39,9 +39,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-2",
         priority: "Meh",
-        title: "Client project status overview",
+        title: "Visão geral do status dos projetos",
         description:
-          "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.",
+          "Resumo rápido para acompanhar a evolução dos projetos ativos e os próximos pontos de atenção.",
         clientEmail: "status.client@example.com",
         assignees: [assignees.bruno, assignees.eva],
         comments: 108000,
@@ -51,9 +51,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-3",
         priority: "OK",
-        title: "Campaign task review checklist",
+        title: "Checklist de revisão da campanha",
         description:
-          "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.",
+          "Lista de validação para revisar entregáveis, pendências e aprovações antes da próxima etapa.",
         clientEmail: "",
         assignees: [assignees.clara],
         comments: 12,
@@ -71,9 +71,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-4",
         priority: "High Priority",
-        title: "Proposal approval flow for agency clients",
+        title: "Fluxo de aprovação de proposta para clientes",
         description:
-          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.",
+          "Organização das etapas necessárias para aprovação, ajustes finais e comunicação com o cliente.",
         clientEmail: "proposal.client@example.com",
         assignees: [assignees.diego, assignees.ana, assignees.eva],
         comments: 73,
@@ -83,9 +83,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-5",
         priority: "Low Priority",
-        title: "Landing copy draft",
+        title: "Rascunho dos textos da landing page",
         description:
-          "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet consectetur.",
+          "Primeira versão dos textos comerciais, com foco em clareza, benefício e chamada para ação.",
         clientEmail: "copy.client@example.com",
         assignees: [],
         comments: 8,
@@ -95,9 +95,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-6",
         priority: "I don't know",
-        title: "Notification timing notes",
+        title: "Notas sobre tempo de notificação",
         description:
-          "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.",
+          "Regras de tempo para avisos automáticos quando um card muda de etapa no quadro.",
         clientEmail: "ops.client@example.com",
         assignees: [assignees.eva, assignees.bruno, assignees.clara, assignees.ana],
         comments: 19,
@@ -115,9 +115,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-7",
         priority: "Maybe important",
-        title: "Brand color exploration",
+        title: "Exploração das cores da marca",
         description:
-          "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae.",
+          "Variações de paleta e contraste para manter o painel consistente com a identidade visual.",
         clientEmail: "brand.client@example.com",
         assignees: [assignees.ana, assignees.diego],
         comments: 7,
@@ -127,9 +127,9 @@ export const initialColumns: KanbanColumn[] = [
       {
         id: "card-8",
         priority: "Not that important",
-        title: "Archive old board examples",
+        title: "Arquivar exemplos antigos de quadros",
         description:
-          "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.",
+          "Limpeza de exemplos antigos para deixar o ambiente de demonstração mais objetivo.",
         clientEmail: "archive.client@example.com",
         assignees: [assignees.clara, assignees.bruno, assignees.eva],
         comments: 3,

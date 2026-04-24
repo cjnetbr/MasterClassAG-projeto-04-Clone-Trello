@@ -165,7 +165,7 @@ export const useKanbanStore = create<KanbanState>()(
       },
     }),
     {
-      name: "slothui-kanban-board",
+      name: "slothui-kanban-board-pt-br",
       partialize: (state) => ({ columns: state.columns }),
     },
   ),
