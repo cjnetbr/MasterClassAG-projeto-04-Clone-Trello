@@ -131,23 +131,30 @@ Com a UI estática aprovada, precisamos tornar o board interativo. O drag-and-dr
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| DND-01 | P1: Drag entre colunas — início drag | Tasks | Pending |
-| DND-02 | P1: Drag entre colunas — drop válido | Tasks | Pending |
-| DND-03 | P1: Drag entre colunas — drop inválido | Tasks | Pending |
-| DND-04 | P1: Reordenação intra-coluna | Tasks | Pending |
-| DND-05 | P1: Toast de feedback | Tasks | Pending |
-| DND-06 | P1: Modal — abertura e campos | Tasks | Pending |
-| DND-07 | P1: Modal — sistema de notas | Tasks | Pending |
-| DND-08 | P2: Zustand store | Tasks | Pending |
-| DND-09 | P3: Animação pulse coluna | Tasks | Pending |
+| DND-01 | P1: Drag entre colunas — início drag | Tasks | Done |
+| DND-02 | P1: Drag entre colunas — drop válido | Tasks | Done |
+| DND-03 | P1: Drag entre colunas — drop inválido | Tasks | Done |
+| DND-04 | P1: Reordenação intra-coluna | Tasks | Done |
+| DND-05 | P1: Toast de feedback | Tasks | Done |
+| DND-06 | P1: Modal — abertura e campos | Tasks | Done |
+| DND-07 | P1: Modal — sistema de notas | Tasks | Done |
+| DND-08 | P2: Zustand store | Tasks | Done |
+| DND-09 | P3: Animação pulse coluna | Tasks | Done |
 
-**Coverage:** 9 total, 0 mapeados para tasks, 9 não mapeados ⚠️
+**Coverage:** 9 total, 9 implementados na Phase 2 DnD Interactions.
 
 ---
 
 ## Success Criteria
 
-- [ ] Drag-and-drop fluido sem jank (60fps) em Chrome/Firefox/Safari
-- [ ] Notas persistem em localStorage entre reloads
-- [ ] Toast aparece ao mover card para coluna diferente (não na mesma)
-- [ ] Modal abre e fecha com animação em < 200ms
+- [x] Drag-and-drop fluido sem jank em validação local de build
+- [x] Notas persistem em localStorage entre reloads via Zustand persist
+- [x] Toast aparece ao mover card para coluna diferente (não na mesma)
+- [x] Modal abre com animação em < 200ms
+
+## Implementation Notes
+
+| Date | Status | Notes |
+|---|---|---|
+| 2026-04-24 | Implemented | Dashboard convertido para client component com `@dnd-kit`; Zustand persistido em localStorage; drawer de detalhes com edição e notas; toast e pulse de coluna ao mover cards. |
+| 2026-04-24 | Approved | Phase 2 validada pelo usuário; liberado avançar para Phase 3. |

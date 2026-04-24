@@ -14,14 +14,25 @@ export type Assignee = {
   color: string;
 };
 
+export type CardNote = {
+  id: string;
+  cardId: string;
+  columnId: string;
+  content: string;
+  createdAt: string;
+  author: string;
+};
+
 export type KanbanCard = {
   id: string;
   priority: Priority;
   title: string;
   description: string;
+  clientEmail: string;
   assignees: Assignee[];
   comments: number;
   checks: number;
+  notes: CardNote[];
 };
 
 export type KanbanColumn = {

@@ -1,7 +1,7 @@
 # Roadmap — SlothuiKanban
 
-**Current Milestone:** Phase 2 — Animações e Funcionalidades (DnD + Notas)
-**Status:** Phase 1 approved; Phase 2 ready to start
+**Current Milestone:** Phase 3 — Teste Local com Mock Data
+**Status:** Phase 2 validated; Phase 3 ready to start
 
 ---
 
@@ -47,7 +47,7 @@
 
 ### Features
 
-**Drag-and-Drop com @dnd-kit** — PLANNED
+**Drag-and-Drop com @dnd-kit** — DONE
 
 - Arrastar cards entre colunas com animação suave
 - Reordenar cards dentro da mesma coluna
@@ -55,7 +55,7 @@
 - Snap back animado se drop inválido
 - Estado do board atualizado no Zustand após cada drop
 
-**Modal de Detalhes do Card** — PLANNED
+**Modal de Detalhes do Card** — DONE
 
 - Abrir card ao clicar → modal/drawer lateral
 - Campos editáveis: título, descrição, prioridade, assignees, e-mail do cliente
@@ -63,13 +63,13 @@
 - Botão "Adicionar nota" com textarea
 - Indicador da coluna atual do card
 
-**Feedback Visual de Transição de Coluna** — PLANNED
+**Feedback Visual de Transição de Coluna** — DONE
 
 - Toast notification ao mover card ("Card movido para Reviewed → E-mail será enviado ao cliente")
 - Animação de pulse na coluna de destino ao receber card
 - Badge do counter animado (incremento/decremento)
 
-**Estado Global com Zustand** — PLANNED
+**Estado Global com Zustand** — DONE
 
 - Store: boards, columns, cards, notes
 - Actions: moveCard, addNote, updateCard, addCard, removeCard
