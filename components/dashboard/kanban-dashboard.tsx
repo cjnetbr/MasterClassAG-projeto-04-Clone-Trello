@@ -44,15 +44,34 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { assignees } from "@/lib/kanban-data";
 import { useKanbanStore } from "@/lib/kanban-store";
 import { cn } from "@/lib/utils";
-import type { Assignee, KanbanCard, KanbanColumn, Priority } from "@/types/kanban";
+import type {
+  Assignee,
+  CardNote,
+  KanbanCard,
+  KanbanColumn,
+  NewKanbanCardInput,
+  Priority,
+} from "@/types/kanban";
 
 type ToastState = {
   id: number;
   message: string;
   tone: "success" | "warning";
 } | null;
+
+type EmailPreview = {
+  to: string;
+  subject: string;
+  body: string;
+  cardTitle: string;
+  fromColumnTitle: string;
+  toColumnTitle: string;
+} | null;
+
+const emailMockEnabled = process.env.NEXT_PUBLIC_EMAIL_MOCK !== "false";
 
 const navItems = [
   { label: "Início", icon: Home, badge: "10", active: true },
@@ -210,7 +229,7 @@ function Sidebar() {
   );
 }
 
-function Header() {
+function Header({ onAddCard }: { onAddCard: () => void }) {
   return (
     <header className="border-b border-gray-100 bg-white px-5 py-5 xl:px-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -239,7 +258,7 @@ function Header() {
             <Upload className="h-4 w-4" />
             Exportar
           </Button>
-          <Button size="sm">
+          <Button size="sm" onClick={onAddCard}>
             <Plus className="h-4 w-4" />
             Adicionar
           </Button>
@@ -410,11 +429,13 @@ function KanbanColumnView({
   column,
   overColumnId,
   pulseColumnId,
+  onAddCard,
   onOpenCard,
 }: {
   column: KanbanColumn;
   overColumnId: string | null;
   pulseColumnId: string | null;
+  onAddCard: (columnId: string) => void;
   onOpenCard: (cardId: string) => void;
 }) {
   const styles = columnStyles[column.accent];
@@ -445,6 +466,7 @@ function KanbanColumnView({
         </span>
         <button
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition hover:bg-white/30"
+          onClick={() => onAddCard(column.id)}
           aria-label={`Adicionar card em ${displayColumnTitle(column.title)}`}
         >
           <Plus className="h-4 w-4" />
@@ -604,6 +626,190 @@ function CardDrawer({
   );
 }
 
+function formatEmailBody(notesFromPreviousStage: CardNote[], fromColumnTitle: string) {
+  if (notesFromPreviousStage.length === 0) {
+    return "Nenhuma nota registrada nesta etapa.";
+  }
+
+  return [
+    `Resumo da etapa ${displayColumnTitle(fromColumnTitle)}:`,
+    "",
+    ...notesFromPreviousStage.map((note, index) => `${index + 1}. ${note.content}`),
+  ].join("\n");
+}
+
+function EmailPreviewModal({
+  preview,
+  onClose,
+}: {
+  preview: EmailPreview;
+  onClose: () => void;
+}) {
+  if (!preview) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/35 p-6" onClick={onClose}>
+      <section
+        className="w-full max-w-2xl animate-toast-in rounded-2xl bg-white p-6 shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[#5B5FEF]">
+              {displayColumnTitle(preview.fromColumnTitle)} → {displayColumnTitle(preview.toColumnTitle)}
+            </p>
+            <h2 className="text-xl font-bold text-gray-950">Preview de E-mail</h2>
+          </div>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar preview de e-mail">
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <div className="space-y-4 rounded-2xl bg-gray-50 p-4">
+          <div>
+            <p className="text-xs font-bold uppercase text-gray-400">Para</p>
+            <p className="mt-1 text-sm font-semibold text-gray-900">{preview.to}</p>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase text-gray-400">Assunto</p>
+            <p className="mt-1 text-sm font-semibold text-gray-900">{preview.subject}</p>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase text-gray-400">Corpo</p>
+            <pre className="mt-2 whitespace-pre-wrap rounded-xl bg-white p-4 text-sm leading-6 text-gray-700 ring-1 ring-gray-100">
+              {preview.body}
+            </pre>
+          </div>
+        </div>
+
+        <div className="mt-5 flex justify-end">
+          <Button onClick={onClose}>Fechar (simulado)</Button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function CreateCardModal({
+  defaultColumnId,
+  columns,
+  onClose,
+  onCreate,
+}: {
+  defaultColumnId: string;
+  columns: KanbanColumn[];
+  onClose: () => void;
+  onCreate: (input: NewKanbanCardInput) => void;
+}) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [priority, setPriority] = useState<Priority>("Important");
+  const [columnId, setColumnId] = useState(defaultColumnId);
+  const defaultAssignees = [assignees.ana, assignees.bruno];
+
+  useEffect(() => {
+    setColumnId(defaultColumnId);
+  }, [defaultColumnId]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/35 p-6" onClick={onClose}>
+      <section
+        className="w-full max-w-xl animate-toast-in rounded-2xl bg-white p-6 shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[#5B5FEF]">Novo projeto</p>
+            <h2 className="text-xl font-bold text-gray-950">Criar card</h2>
+          </div>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar criação de card">
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <div className="space-y-4">
+          <label className="block">
+            <span className="mb-2 block text-sm font-bold text-gray-700">Título</span>
+            <input
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              className="h-11 w-full rounded-xl border border-gray-200 px-3 text-sm font-semibold outline-none focus:border-[#5B5FEF]"
+            />
+          </label>
+          <label className="block">
+            <span className="mb-2 block text-sm font-bold text-gray-700">Descrição</span>
+            <textarea
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              className="min-h-24 w-full resize-none rounded-xl border border-gray-200 p-3 text-sm leading-6 outline-none focus:border-[#5B5FEF]"
+            />
+          </label>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <label className="block">
+              <span className="mb-2 block text-sm font-bold text-gray-700">Coluna</span>
+              <select
+                value={columnId}
+                onChange={(event) => setColumnId(event.target.value)}
+                className="h-11 w-full rounded-xl border border-gray-200 px-3 text-sm font-semibold outline-none focus:border-[#5B5FEF]"
+              >
+                {columns.map((column) => (
+                  <option key={column.id} value={column.id}>
+                    {displayColumnTitle(column.title)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm font-bold text-gray-700">Prioridade</span>
+              <select
+                value={priority}
+                onChange={(event) => setPriority(event.target.value as Priority)}
+                className="h-11 w-full rounded-xl border border-gray-200 px-3 text-sm font-semibold outline-none focus:border-[#5B5FEF]"
+              >
+                {priorities.map((item) => (
+                  <option key={item} value={item}>
+                    {priorityLabels[item]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm font-bold text-gray-700">E-mail</span>
+              <input
+                value={clientEmail}
+                onChange={(event) => setClientEmail(event.target.value)}
+                placeholder="cliente@empresa.com"
+                className="h-11 w-full rounded-xl border border-gray-200 px-3 text-sm font-semibold outline-none focus:border-[#5B5FEF]"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div className="mt-5 flex justify-end gap-3">
+          <Button variant="secondary" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={() => {
+              onCreate({
+                columnId,
+                title,
+                description,
+                priority,
+                clientEmail,
+                assignees: defaultAssignees,
+              });
+            }}
+          >
+            Criar card
+          </Button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function Toast({ toast }: { toast: ToastState }) {
   if (!toast) return null;
 
@@ -621,12 +827,15 @@ function Toast({ toast }: { toast: ToastState }) {
 
 export function KanbanDashboard() {
   const columns = useKanbanStore((state) => state.columns);
+  const addCard = useKanbanStore((state) => state.addCard);
   const moveCard = useKanbanStore((state) => state.moveCard);
   const findCard = useKanbanStore((state) => state.findCard);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overColumnId, setOverColumnId] = useState<string | null>(null);
   const [pulseColumnId, setPulseColumnId] = useState<string | null>(null);
   const [openCardId, setOpenCardId] = useState<string | null>(null);
+  const [createCardColumnId, setCreateCardColumnId] = useState<string | null>(null);
+  const [emailPreview, setEmailPreview] = useState<EmailPreview>(null);
   const [toast, setToast] = useState<ToastState>(null);
 
   const sensors = useSensors(
@@ -672,6 +881,30 @@ export function KanbanDashboard() {
       if (result.changedColumn && destinationColumn) {
         setPulseColumnId(destinationColumn);
         window.setTimeout(() => setPulseColumnId(null), 650);
+        const preview: EmailPreview = {
+          to: result.clientEmail || "E-mail do cliente não configurado",
+          subject: `Atualização do projeto: ${result.cardTitle}`,
+          body: formatEmailBody(
+            result.notesFromPreviousStage ?? [],
+            result.fromColumnTitle ?? "",
+          ),
+          cardTitle: result.cardTitle ?? "Projeto",
+          fromColumnTitle: result.fromColumnTitle ?? "",
+          toColumnTitle: result.toColumnTitle ?? "",
+        };
+
+        if (emailMockEnabled) {
+          console.log("[email-mock] Transição de card", {
+            cardTitle: preview.cardTitle,
+            from: preview.fromColumnTitle,
+            to: preview.toColumnTitle,
+            toEmail: preview.to,
+            subject: preview.subject,
+            body: preview.body,
+          });
+          setEmailPreview(preview);
+        }
+
         setToast({
           id: Date.now(),
           tone: result.clientEmail ? "success" : "warning",
@@ -690,7 +923,7 @@ export function KanbanDashboard() {
     <main className="flex min-h-screen bg-[#F7F8FC]">
       <Sidebar />
       <section className="min-w-0 flex-1">
-        <Header />
+        <Header onAddCard={() => setCreateCardColumnId(columns[0]?.id ?? "in-progress")} />
         <div className="px-5 py-6 xl:px-8">
           <div className="mb-6 flex items-center justify-between">
             <div>
@@ -722,6 +955,7 @@ export function KanbanDashboard() {
                     column={column}
                     overColumnId={overColumnId}
                     pulseColumnId={pulseColumnId}
+                    onAddCard={setCreateCardColumnId}
                     onOpenCard={setOpenCardId}
                   />
                 ))}
@@ -738,6 +972,24 @@ export function KanbanDashboard() {
         </div>
       </section>
       <CardDrawer cardId={openCardId} onClose={() => setOpenCardId(null)} />
+      {createCardColumnId ? (
+        <CreateCardModal
+          defaultColumnId={createCardColumnId}
+          columns={columns}
+          onClose={() => setCreateCardColumnId(null)}
+          onCreate={(input) => {
+            const cardId = addCard(input);
+            setCreateCardColumnId(null);
+            setOpenCardId(cardId);
+            setToast({
+              id: Date.now(),
+              tone: "success",
+              message: "Card criado para validação local.",
+            });
+          }}
+        />
+      ) : null}
+      <EmailPreviewModal preview={emailPreview} onClose={() => setEmailPreview(null)} />
       <Toast toast={toast} />
     </main>
   );

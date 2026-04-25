@@ -1,7 +1,7 @@
 # Roadmap — SlothuiKanban
 
-**Current Milestone:** Phase 3 — Teste Local com Mock Data
-**Status:** Phase 2 validated; Phase 3 ready to start
+**Current Milestone:** Phase 4 — Banco de Dados (Supabase)
+**Status:** Phase 3 approved; Phase 4 ready to start
 
 ---
 
@@ -84,20 +84,20 @@
 
 ### Features
 
-**Mock Data Realista** — PLANNED
+**Mock Data Realista** — DONE
 
 - Seed de dados: 3 colunas padrão, 8-10 cards com dados variados
 - Clientes fictícios com e-mails válidos de formato
 - Notas de exemplo por card
 
-**Simulador de E-mail (Dev Mode)** — PLANNED
+**Simulador de E-mail (Dev Mode)** — DONE
 
 - Ao mover card, exibir modal/drawer com preview do e-mail que seria enviado
 - Mostrar: destinatário, assunto, corpo com resumo das notas
 - Console.log detalhado do evento para debug
 - Flag `NEXT_PUBLIC_EMAIL_MOCK=true` para ativar modo simulação
 
-**Validação de Fluxo Completo** — PLANNED
+**Validação de Fluxo Completo** — DONE
 
 - Checklist de QA manual documentado
 - Todos os casos de uso P1 verificados

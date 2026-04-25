@@ -5,14 +5,18 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { initialColumns } from "@/lib/kanban-data";
-import type { KanbanCard, KanbanColumn, Priority } from "@/types/kanban";
+import type { KanbanCard, KanbanColumn, NewKanbanCardInput, Priority } from "@/types/kanban";
 
 type MoveResult = {
   moved: boolean;
   changedColumn: boolean;
+  fromColumnId?: string;
+  fromColumnTitle?: string;
+  toColumnId?: string;
   toColumnTitle?: string;
   clientEmail?: string;
   cardTitle?: string;
+  notesFromPreviousStage?: KanbanCard["notes"];
 };
 
 type CardPatch = {
@@ -25,6 +29,7 @@ type CardPatch = {
 type KanbanState = {
   columns: KanbanColumn[];
   moveCard: (activeId: string, overId: string) => MoveResult;
+  addCard: (input: NewKanbanCardInput) => string;
   addNote: (cardId: string, columnId: string, content: string) => void;
   updateCard: (cardId: string, patch: CardPatch) => void;
   findCard: (cardId: string) => { card: KanbanCard; column: KanbanColumn } | null;
@@ -56,6 +61,40 @@ export const useKanbanStore = create<KanbanState>()(
   persist(
     (set, get) => ({
       columns: cloneInitialColumns(),
+      addCard: (input) => {
+        const cardId = crypto.randomUUID();
+        const now = new Date().toISOString();
+        const newCard: KanbanCard = {
+          id: cardId,
+          priority: input.priority,
+          title: input.title.trim() || "Novo projeto",
+          description: input.description.trim() || "Sem descrição informada.",
+          clientEmail: input.clientEmail.trim(),
+          assignees: input.assignees,
+          comments: 0,
+          checks: 0,
+          notes: [
+            {
+              id: crypto.randomUUID(),
+              cardId,
+              columnId: input.columnId,
+              content: "Card criado durante a validação local do fluxo.",
+              createdAt: now,
+              author: "Cesar Junior",
+            },
+          ],
+        };
+
+        set({
+          columns: get().columns.map((column) =>
+            column.id === input.columnId
+              ? recount({ ...column, cards: [newCard, ...column.cards] })
+              : column,
+          ),
+        });
+
+        return cardId;
+      },
       moveCard: (activeId, overId) => {
         const columns = get().columns;
         const fromColumn = findColumnByCard(columns, activeId);
@@ -112,9 +151,15 @@ export const useKanbanStore = create<KanbanState>()(
         return {
           moved: true,
           changedColumn: true,
+          fromColumnId: fromColumn.id,
+          fromColumnTitle: fromColumn.title,
+          toColumnId: toColumn.id,
           toColumnTitle: toColumn.title,
           clientEmail: activeCard.clientEmail,
           cardTitle: activeCard.title,
+          notesFromPreviousStage: activeCard.notes.filter(
+            (note) => note.columnId === fromColumn.id,
+          ),
         };
       },
       addNote: (cardId, columnId, content) => {
@@ -165,7 +210,7 @@ export const useKanbanStore = create<KanbanState>()(
       },
     }),
     {
-      name: "slothui-kanban-board-pt-br",
+      name: "slothui-kanban-board-phase-3",
       partialize: (state) => ({ columns: state.columns }),
     },
   ),

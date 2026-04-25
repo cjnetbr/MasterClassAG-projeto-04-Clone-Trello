@@ -35,6 +35,15 @@ export type KanbanCard = {
   notes: CardNote[];
 };
 
+export type NewKanbanCardInput = {
+  columnId: string;
+  title: string;
+  description: string;
+  priority: Priority;
+  clientEmail: string;
+  assignees: Assignee[];
+};
+
 export type KanbanColumn = {
   id: string;
   title: string;

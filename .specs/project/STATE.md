@@ -52,8 +52,8 @@ _Nenhuma registrada ainda._
 
 ## Current Focus
 
-**Phase 3 — Teste Local com Mock Data**
-Status: READY TO START -> Phase 2 validada pelo usuario em 2026-04-24.
+**Phase 4 — Banco de Dados (Supabase)**
+Status: READY TO START -> Phase 3 aprovada pelo usuario em 2026-04-25.
 
 ## Progress Log
 
@@ -64,3 +64,5 @@ Status: READY TO START -> Phase 2 validada pelo usuario em 2026-04-24.
 | 2026-04-24 | Phase 2 DnD Interactions | Implementado DnD com `@dnd-kit`, reordenacao intra-coluna, movimento entre colunas, toast, pulse visual, Zustand persistido e drawer de detalhes com notas. `npm run lint` e `npm run build` passaram. |
 | 2026-04-24 | Phase 2 Approval | Usuario validou as interacoes da Phase 2; projeto liberado para iniciar Phase 3. |
 | 2026-04-24 | PT-BR UI Pass | Antes da Phase 3, dashboard traduzido para PT-BR; removidos da sidebar os itens APIs, Subscription e Help & Support. |
+| 2026-04-24 | Phase 3 Mock Data | Implementado seed realista, criacao local de cards, preview de e-mail simulado e checklist manual em `.specs/features/phase-3-mock-data/checklist.md`. |
+| 2026-04-25 | Phase 3 Approval | Usuario aprovou a Phase 3; projeto liberado para iniciar Phase 4. |

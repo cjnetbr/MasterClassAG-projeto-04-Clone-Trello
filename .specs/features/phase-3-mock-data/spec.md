@@ -85,19 +85,26 @@ Antes de conectar qualquer banco de dados real, o app precisa rodar com dados fi
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| MOCK-01 | P1: Seed de dados | Tasks | Pending |
-| MOCK-02 | P1: Simulador e-mail — intercepção | Tasks | Pending |
-| MOCK-03 | P1: Simulador e-mail — modal preview | Tasks | Pending |
-| MOCK-04 | P1: QA checklist | - | Pending |
-| MOCK-05 | P2: Performance baseline | - | Pending |
+| MOCK-01 | P1: Seed de dados | Tasks | Done |
+| MOCK-02 | P1: Simulador e-mail — intercepção | Tasks | Done |
+| MOCK-03 | P1: Simulador e-mail — modal preview | Tasks | Done |
+| MOCK-04 | P1: QA checklist | - | Done |
+| MOCK-05 | P2: Performance baseline | - | Done |
 
-**Coverage:** 5 total, 0 mapeados para tasks, 5 não mapeados ⚠️
+**Coverage:** 5 total, 5 implementados na Phase 3 Mock Data.
 
 ---
 
 ## Success Criteria
 
 - [ ] Todos os fluxos P1 das Phases 1+2+3 validados manualmente
-- [ ] Preview de e-mail exibe conteúdo correto com notas formatadas
+- [x] Preview de e-mail exibe conteúdo correto com notas formatadas
 - [ ] Zero erros no console do browser durante o fluxo completo
-- [ ] Aprovação explícita do usuário antes de iniciar Phase 4
+- [x] Aprovação explícita do usuário antes de iniciar Phase 4
+
+## Implementation Notes
+
+| Date | Status | Notes |
+|---|---|---|
+| 2026-04-24 | Implemented | Seed com 8 cards realistas, 2-5 responsáveis por card, notas pré-existentes, criação local de cards e preview de e-mail simulado via `NEXT_PUBLIC_EMAIL_MOCK=true`. |
+| 2026-04-25 | Approved | Fase 3 aprovada pelo usuário; projeto liberado para iniciar a Phase 4. |
